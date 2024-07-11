@@ -7,17 +7,17 @@ import (
 	"github.com/TauAdam/todo-list/pkg/service"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	"log"
 	"os"
 )
 
 func main() {
 	if err := initConfig(); err != nil {
-		log.Fatalf("failed to init config: %v", err.Error())
+		logrus.Fatalf("failed to init config: %v", err.Error())
 	}
 	if err := godotenv.Load(); err != nil {
-		log.Fatalf("failed to load env variables: %v", err.Error())
+		logrus.Fatalf("failed to load env variables: %v", err.Error())
 	}
 	db, err := repository.NewPostgresDB(repository.Config{
 		Host:     viper.GetString("db.host"),
@@ -28,7 +28,7 @@ func main() {
 		Password: os.Getenv("DATABASE_PASSWORD"),
 	})
 	if err != nil {
-		log.Fatalf("failed to initialize db: %v", err)
+		logrus.Fatalf("failed to initialize db: %v", err)
 	}
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
@@ -37,7 +37,7 @@ func main() {
 	server := new(todolist.Server)
 	port := viper.GetString("port")
 	if err := server.Run(port, handlers.InitRoutes()); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+		logrus.Fatalf("Failed to start server: %v", err)
 	}
 
 }
