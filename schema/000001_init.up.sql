@@ -1,36 +1,40 @@
 CREATE TABLE users
 (
-id serial not null unique,
-name varchar(255) not null,
-username varchar(255) not null unique,
-password varchar(255) not null
+    id       SERIAL PRIMARY KEY,
+    name     VARCHAR(255) NOT NULL,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE todo_lists
 (
-id serial not null unique,
-title varchar(255) not null,
-description varchar(255)
+    id          SERIAL PRIMARY KEY,
+    title       VARCHAR(255) NOT NULL,
+    description VARCHAR(255)
 );
 
 CREATE TABLE user_lists
 (
-id serial not null unique,
-user_id int references users(id) on delete cascade not null,
-list_id int references todo_lists(id) on delete cascade not null
+    id      SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    list_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (list_id) REFERENCES todo_lists (id) ON DELETE CASCADE
 );
 
 CREATE TABLE todo_items
 (
-id serial not null unique,
-title varchar(255) not null,
-description varchar(255),
-completed boolean not null default false
+    id          SERIAL PRIMARY KEY,
+    title       VARCHAR(255) NOT NULL,
+    description VARCHAR(255),
+    completed   BOOLEAN      NOT NULL DEFAULT false
 );
 
 CREATE TABLE list_items
 (
-id serial not null unique,
-list_id int references todo_lists(id) on delete cascade not null,
-item_id int references todo_items(id) on delete cascade not null
+    id      SERIAL PRIMARY KEY,
+    list_id INT NOT NULL,
+    item_id INT NOT NULL,
+    FOREIGN KEY (list_id) REFERENCES todo_lists (id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES todo_items (id) ON DELETE CASCADE
 );
