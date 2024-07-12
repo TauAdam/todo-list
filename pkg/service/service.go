@@ -11,6 +11,7 @@ type Auth interface {
 	ParseToken(accessToken string) (int, error)
 }
 type TodoList interface {
+	Create(userId int, list todolist.TodoList) (int, error)
 }
 type TodoItem interface {
 }
@@ -22,6 +23,7 @@ type Service struct {
 
 func NewService(repo *repository.Repository) *Service {
 	return &Service{
-		Auth: NewAuthService(repo.Authorization),
+		Auth:     NewAuthService(repo.Authorization),
+		TodoList: NewTodoListService(repo.TodoList),
 	}
 }
