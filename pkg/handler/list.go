@@ -25,10 +25,26 @@ func (h *Handler) createList(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"id": id,
 	})
-
 }
-func (h *Handler) getLists(c *gin.Context) {
 
+type getListsResponse struct {
+	Data []todolist.TodoList `json:"data"`
+}
+
+func (h *Handler) getLists(c *gin.Context) {
+	userId, err := provideUserId(c)
+	if err != nil {
+		return
+	}
+
+	lists, err := h.services.TodoList.GetAll(userId)
+	if err != nil {
+		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, getListsResponse{
+		Data: lists,
+	})
 }
 
 func (h *Handler) getListById(c *gin.Context) {
