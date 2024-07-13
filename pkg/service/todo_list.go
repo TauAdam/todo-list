@@ -9,6 +9,10 @@ type TodoListService struct {
 	repo repository.TodoList
 }
 
+func (s *TodoListService) GetById(userId, id int) (todolist.TodoList, error) {
+	return s.repo.GetById(userId, id)
+}
+
 func NewTodoListService(repo repository.TodoList) *TodoListService {
 	return &TodoListService{repo: repo}
 }
