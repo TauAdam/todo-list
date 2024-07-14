@@ -14,13 +14,13 @@ func (h *Handler) createList(c *gin.Context) {
 	}
 	var input todolist.TodoList
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
 
 	id, err := h.services.TodoList.Create(userId, input)
 	if err != nil {
-		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 	c.JSON(http.StatusOK, map[string]interface{}{
@@ -40,7 +40,7 @@ func (h *Handler) getLists(c *gin.Context) {
 
 	lists, err := h.services.TodoList.GetAll(userId)
 	if err != nil {
-		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 	c.JSON(http.StatusOK, getListsResponse{
@@ -55,12 +55,12 @@ func (h *Handler) getListById(c *gin.Context) {
 	}
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, "invalid id parameter")
+		newErrorResponse(c, http.StatusBadRequest, "invalid id parameter")
 		return
 	}
 	list, err := h.services.TodoList.GetById(userId, id)
 	if err != nil {
-		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 	c.JSON(http.StatusOK, list)
@@ -73,16 +73,20 @@ func (h *Handler) updateListById(c *gin.Context) {
 	}
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, "invalid id parameter")
+		newErrorResponse(c, http.StatusBadRequest, "invalid id parameter")
 		return
 	}
 	var input todolist.UpdateListInput
 	if err := c.BindJSON(&input); err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, err.Error())
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	err = h.services.TodoList.Update(userId, id, c)
-
+	err = h.services.TodoList.Update(userId, id, input)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, StatusResponse{"ok"})
 }
 
 func (h *Handler) deleteListById(c *gin.Context) {
@@ -92,12 +96,12 @@ func (h *Handler) deleteListById(c *gin.Context) {
 	}
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		NewErrorResponse(c, http.StatusBadRequest, "invalid id parameter")
+		newErrorResponse(c, http.StatusBadRequest, "invalid id parameter")
 		return
 	}
 	err = h.services.TodoList.Delete(userId, id)
 	if err != nil {
-		NewErrorResponse(c, http.StatusInternalServerError, err.Error())
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 	c.JSON(http.StatusOK, StatusResponse{
