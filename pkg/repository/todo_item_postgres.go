@@ -32,5 +32,18 @@ func (r *TodoItemPostgres) Create(listId int, item todolist.TodoItem) (int, erro
 		tx.Rollback()
 		return 0, err
 	}
-	return itemId, tx.Commit()
+	if err := tx.Commit(); err != nil {
+		return 0, err
+	}
+	return itemId, nil
+}
+
+func (r *TodoItemPostgres) GetAll(userId, listId int) ([]todolist.TodoItem, error) {
+	var items []todolist.TodoItem
+	query := fmt.Sprintf("SELECT ti.id, ti.title, ti.description FROM %s ti INNER JOIN %s li ON ti.id = li.item_id INNER JOIN %s ul ON ul.list_id = li.list_id WHERE li.list_id = $1 AND ul.user_id = $2", todoItemsTable, listItemsTable, userListsTable)
+	err := r.db.Select(&items, query, listId, userId)
+	if err != nil {
+		return nil, err
+	}
+	return items, nil
 }

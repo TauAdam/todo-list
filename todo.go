@@ -8,10 +8,10 @@ type TodoList struct {
 	Description string `json:"description" db:"description"`
 }
 type TodoItem struct {
-	Id          int    `json:"id"`
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Completed   bool   `json:"completed"`
+	Id          int    `json:"id" db:"id"`
+	Title       string `json:"title" db:"title" binding:"required"`
+	Description string `json:"description" db:"description"`
+	Done        bool   `json:"done" db:"done"`
 }
 
 type ListItem struct {
