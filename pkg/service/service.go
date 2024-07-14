@@ -13,8 +13,9 @@ type Auth interface {
 type TodoList interface {
 	Create(userId int, list todolist.TodoList) (int, error)
 	GetAll(userId int) ([]todolist.TodoList, error)
-	GetById(userId, id int) (todolist.TodoList, error)
-	Delete(userId, id int) error
+	GetById(userId, listId int) (todolist.TodoList, error)
+	Delete(userId, listId int) error
+	Update(userId, listId int, input todolist.UpdateListInput) error
 }
 type TodoItem interface {
 }

@@ -23,3 +23,7 @@ type UserList struct {
 	UserId int
 	ListId int
 }
+type UpdateListInput struct {
+	Title       *string `json:"title"`
+	Description *string `json:"description"`
+}
