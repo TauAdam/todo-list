@@ -50,7 +50,6 @@ func (h *Handler) getItems(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, items)
 }
-
 func (h *Handler) getItemById(c *gin.Context) {
 	userId, err := provideUserId(c)
 	if err != nil {
@@ -69,11 +68,23 @@ func (h *Handler) getItemById(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, item)
 }
-
 func (h *Handler) updateItemById(c *gin.Context) {
 
 }
-
 func (h *Handler) deleteItemById(c *gin.Context) {
+	userId, err := provideUserId(c)
+	if err != nil {
+		return
+	}
+	itemId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id parameter")
+		return
+	}
 
+	if err := h.services.TodoItem.Delete(userId, itemId); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, StatusResponse{"ok"})
 }
