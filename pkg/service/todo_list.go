@@ -29,5 +29,10 @@ func (s *TodoListService) Update(userId, id int, input todolist.UpdateListInput)
 	if err := input.Validate(); err != nil {
 		return err
 	}
+	_, err := s.GetById(userId, id)
+	if err != nil {
+		// if list does not exist or does not belong to the user
+		return err
+	}
 	return s.repo.Update(userId, id, input)
 }

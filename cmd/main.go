@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	todolist "github.com/TauAdam/todo-list"
 	"github.com/TauAdam/todo-list/pkg/handler"
 	"github.com/TauAdam/todo-list/pkg/repository"
@@ -10,6 +11,8 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -36,10 +39,24 @@ func main() {
 
 	server := new(todolist.Server)
 	port := viper.GetString("port")
-	if err := server.Run(port, handlers.InitRoutes()); err != nil {
-		logrus.Fatalf("Failed to start server: %v", err)
-	}
+	go func() {
+		if err := server.Run(port, handlers.InitRoutes()); err != nil {
+			logrus.Fatalf("Failed to start server: %v", err)
+		}
+	}()
+	logrus.Println("Todo list app started")
 
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<-quit
+
+	logrus.Println("Todo list app shutting down")
+	if err := server.Shutdown(context.Background()); err != nil {
+		logrus.Errorf("error occurred on server shutting down: %v", err)
+	}
+	if err := db.Close(); err != nil {
+		logrus.Errorf("error occurred on db connection close: %v", err)
+	}
 }
 
 func initConfig() error {
