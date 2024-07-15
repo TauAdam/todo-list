@@ -15,15 +15,16 @@ import (
 	"syscall"
 )
 
-// @title Todo list API
-// @version 1.0
-// @description This is a simple todo list API
-// @host localhost:8000
-// @BasePath /
-// @schemes http
-// @securityDefinitions.api_key: apiKeyAuth
-// @in header
-// @name Authorization
+//	@title			Todo list API
+//	@version		1.0
+//	@description	This is a simple todo list API
+//	@host			localhost:8080
+//	@BasePath		/
+//	@schemes		http
+
+//	@securityDefinitions.apikey	ApiKeyAuth
+//	@in							header
+//	@name						Authorization
 
 func main() {
 	if err := initConfig(); err != nil {

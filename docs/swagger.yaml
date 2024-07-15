@@ -51,7 +51,7 @@ definitions:
     - password
     - username
     type: object
-host: localhost:8000
+host: localhost:8080
 info:
   contact: {}
   description: This is a simple todo list API
@@ -238,4 +238,9 @@ paths:
       - auth
 schemes:
 - http
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -7,18 +7,18 @@ import (
 	"strconv"
 )
 
-// @Summary Create a new list
-// @Tags lists
-// @Description create a new list
-// @Security ApiKeyAuth
-// @ID create-list
-// @Accept json
-// @Produce json
-// @Param input body todolist.TodoList true "List info"
-// @Success 200 {integer} integer 1
-// @Failure 400,404 {object} errorResponse
-// @Failure 500 {object} errorResponse
-// @Router /api/lists [post]
+// @Summary		Create a new list
+// @Tags			lists
+// @Description	create a new list
+// @Security		ApiKeyAuth
+// @ID				create-list
+// @Accept			json
+// @Produce		json
+// @Param			input	body		todolist.TodoList	true	"List info"
+// @Success		200		{integer}	integer				1
+// @Failure		400,404	{object}	errorResponse
+// @Failure		500		{object}	errorResponse
+// @Router			/api/lists [post]
 func (h *Handler) createList(c *gin.Context) {
 	userId, err := provideUserId(c)
 	if err != nil {
@@ -44,17 +44,17 @@ type getListsResponse struct {
 	Data []todolist.TodoList `json:"data"`
 }
 
-// @Summary Get All Lists
-// @Security ApiKeyAuth
-// @Tags lists
-// @Description get all lists
-// @ID get-all-lists
-// @Accept  json
-// @Produce  json
-// @Success 200 {object} getListsResponse
-// @Failure 400,404 {object} errorResponse
-// @Failure 500 {object} errorResponse
-// @Router /api/lists [get]
+// @Summary		Get All Lists
+// @Security		ApiKeyAuth
+// @Tags			lists
+// @Description	get all lists
+// @ID				get-all-lists
+// @Accept			json
+// @Produce		json
+// @Success		200		{object}	getListsResponse
+// @Failure		400,404	{object}	errorResponse
+// @Failure		500		{object}	errorResponse
+// @Router			/api/lists [get]
 func (h *Handler) getLists(c *gin.Context) {
 	userId, err := provideUserId(c)
 	if err != nil {
@@ -112,17 +112,17 @@ func (h *Handler) updateListById(c *gin.Context) {
 	c.JSON(http.StatusOK, StatusResponse{"ok"})
 }
 
-// @Summary Delete list
-// @Security ApiKeyAuth
-// @Tags lists
-// @Description Delete list by id
-// @ID delete-list
-// @Produce json
-// @Param id path int true "List ID"
-// @Success 200 {object} StatusResponse
-// @Failure 400,404 {object} errorResponse
-// @Failure 500 {object} errorResponse
-// @Router /api/lists/{id} [delete]
+// @Summary		Delete list
+// @Security		ApiKeyAuth
+// @Tags			lists
+// @Description	Delete list by id
+// @ID				delete-list
+// @Produce		json
+// @Param			id		path		int	true	"List ID"
+// @Success		200		{object}	StatusResponse
+// @Failure		400,404	{object}	errorResponse
+// @Failure		500		{object}	errorResponse
+// @Router			/api/lists/{id} [delete]
 func (h *Handler) deleteListById(c *gin.Context) {
 	userId, err := provideUserId(c)
 	if err != nil {
