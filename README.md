@@ -1,5 +1,9 @@
-# todo-list
-## rest api for todo list
+## Implemented rest api for todo list app with:
+- Postgres DB
+- SQL queries
+- Clean architecture 
+- JWT for authentication
+- Swagger documentation
 
 ### Installation
 1. Clone the repository
@@ -9,16 +13,16 @@
 
 ## Features
 - [x] Create a todo list
-- [] Get all todo list
-- [] Get a todo list
-- [] Update a todo list
-- [] Delete a todo list
-- [] Create a todo item
-- [] Get all todo items
-- [] Get a todo item
-- [] Update a todo item
-- [] Delete a todo item
-- [] Mark a todo item as done
+- [x] Get all todo list
+- [x] Get a todo list
+- [x] Update a todo list
+- [x] Delete a todo list
+- [x] Create a todo item
+- [x] Get all todo items
+- [x] Get a todo item
+- [x] Update a todo item
+- [x] Delete a todo item
+- [ ] Mark a todo item as done
 - [x] Sign up
 - [x] Sign in
 
@@ -29,4 +33,4 @@
   - JWT
   - Viper
   - godotenv
-- Postgres
+- Docker <- Postgres
