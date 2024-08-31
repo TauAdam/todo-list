@@ -1,17 +1,29 @@
+## How to run
+
+Prerequisites
+
+- Make sure you have docker, docker compose plugin installed on your machine
+
+1. Clone the repository
+2. Build and run the docker container with compose
+    ```shell
+    docker compose up --build
+    ```
+3. Access the swagger documentation [here](http://localhost:8080/swagger/index.html)
+
+### Showcase
+![img.png](img.png)
+
 ## Implemented rest api for todo list app with:
+
 - Postgres DB
 - SQL queries
-- Clean architecture 
+- Clean architecture
 - JWT for authentication
 - Swagger documentation
 
-### Installation
-1. Clone the repository
-2. Run `go mod tidy`
-3. Run docker compose `docker-compose up -d`
-4. Run `go run cmd/main.go`
-
 ## Features
+
 - [x] Create a todo list
 - [x] Get all todo list
 - [x] Get a todo list
@@ -28,9 +40,9 @@
 
 ## Tech Stack
 - Go
-  - Gin
-  - Sqlx
-  - JWT
-  - cleanenv 
-  - godotenv
+    - Gin
+    - Sqlx
+    - JWT
+    - cleanenv
+    - godotenv
 - Docker <- Postgres

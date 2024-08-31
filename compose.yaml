@@ -15,16 +15,14 @@ services:
       timeout: 10s
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: ./
     depends_on:
       db:
         condition: service_healthy
     environment:
       DATABASE_PASSWORD: qwerty
     ports:
-      - "4000:4000"
+      - "8080:8080"
     restart: always
 
 volumes:
