@@ -1,12 +1,30 @@
 services:
-  postgres:
-    image: postgres:latest
+  db:
+    image: postgres:16
     environment:
       POSTGRES_PASSWORD: qwerty
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      retries: 5
+      timeout: 10s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_PASSWORD: qwerty
+    ports:
+      - "4000:4000"
     restart: always
 
 volumes:

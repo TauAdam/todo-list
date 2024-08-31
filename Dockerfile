@@ -1,12 +1,20 @@
-FROM golang:1.22.5
+FROM golang:1.22.5-alpine AS builder
+
 WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
-COPY . .
-
+COPY go.mod go.sum ./
 RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux go build -o /todo-list
 
-EXPOSE 8080
-CMD ["/todo-list"]
+COPY ./ ./
+
+RUN go build -o main cmd/main.go
+
+FROM alpine AS runner
+
+CMD ["ls", "-la"]
+
+COPY --from=builder /app/main .
+
+CMD ["ls", "-la"]
+
+CMD ["./main"]
