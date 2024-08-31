@@ -11,3 +11,6 @@ test:
 	go test -v ./... -coverprofile cover.out
 test-coverage:
 	go tool cover -func cover.out | grep total | awk '{print $3}'
+
+tidy:
+	go mod tidy

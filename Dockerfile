@@ -11,10 +11,7 @@ RUN go build -o main cmd/main.go
 
 FROM alpine AS runner
 
-CMD ["ls", "-la"]
-
-COPY --from=builder /app/main .
-
-CMD ["ls", "-la"]
+COPY --from=builder /app/main ./
+COPY --from=builder /app/config.yaml ./
 
 CMD ["./main"]

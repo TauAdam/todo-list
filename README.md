@@ -31,6 +31,6 @@
   - Gin
   - Sqlx
   - JWT
-  - Viper
+  - cleanenv 
   - godotenv
 - Docker <- Postgres
